@@ -30,9 +30,10 @@ int main(void) {
   glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
   glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
   glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, true);
+  glfwWindowHint(GLFW_SAMPLES, 4);
 
   // Create window
-  GLFWwindow *window = glfwCreateWindow(initial_width, initial_height, "01: Window", NULL, NULL);
+  GLFWwindow *window = glfwCreateWindow(initial_width, initial_height, "08: UBO Final", NULL, NULL);
   if (!window) {
     std::cerr << "Could not create a window!" << std::endl;
     glfwTerminate();
@@ -40,7 +41,7 @@ int main(void) {
   }
 
   // Make window's context current
-  glfwMakeContextCurrent(window); 
+  glfwMakeContextCurrent(window);
 
   // Load OpenGL functions
   if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
@@ -71,12 +72,12 @@ int main(void) {
       glfwSwapBuffers(window);
 
       // Poll for and process events
-      glfwPollEvents(); 
+      glfwPollEvents();
     }
 
     // Free the entire application before terminating glfw. If this were done in the wrong order
     // application may crash on calling OpenGL (Delete*) calls after destruction of a context.
-	// Freeing is done implicitly by enclosing this part of code in block {}.
+    // Freeing is done implicitly by enclosing this part of code in block {}.
   }
 
   // Free every allocated resource associated with GLFW

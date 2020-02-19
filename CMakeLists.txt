@@ -86,3 +86,4 @@ target_include_directories(framework
 set(IMAGE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/images")
 
 add_subdirectory(01_window)
+add_subdirectory(01_window_final)
