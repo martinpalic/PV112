@@ -2,6 +2,7 @@
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include <string>
 
 class Application {
 public:
@@ -21,6 +22,7 @@ public:
 private:
   size_t width;
   size_t height;
-  GLuint program;
   GLuint vao;
+  GLuint program;
+  GLuint createShaderFromFile(std::string relativeAddress, GLenum shaderType, const char *shaderSource);
 };
