@@ -33,7 +33,7 @@ int main(void) {
   glfwWindowHint(GLFW_SAMPLES, 4);
 
   // Create window
-  GLFWwindow *window = glfwCreateWindow(initial_width, initial_height, "08: UBO Final", NULL, NULL);
+  GLFWwindow *window = glfwCreateWindow(initial_width, initial_height, "22: PROJECT", NULL, NULL);
   if (!window) {
     std::cerr << "Could not create a window!" << std::endl;
     glfwTerminate();

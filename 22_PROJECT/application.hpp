@@ -12,31 +12,9 @@
 #include "mesh.hpp"
 #include "camera.hpp"
 #include "texture.hpp"
-
-// ----------------------------------------------------------------------------
-// UNIFORM STRUCTS
-// ----------------------------------------------------------------------------
-struct CameraUBO {
-  glm::mat4 projection;
-  glm::mat4 view;
-  glm::vec4 position;
-};
-
-struct LightUBO {
-  glm::vec4 position;
-  glm::vec4 ambient_color;
-  glm::vec4 diffuse_color;
-  glm::vec4 specular_color;
-};
-
-struct ObjectUBO {
-  glm::mat4 model_matrix;  // [  0 -  64) bytes
-  glm::vec4 ambient_color; // [ 64 -  80) bytes
-  glm::vec4 diffuse_color; // [ 80 -  96) bytes
-
-  // Contains shininess in .w element
-  glm::vec4 specular_color; // [ 96 - 112) bytes
-};
+#include "structs/CameraUBO.hpp"
+#include "structs/LightUBO.hpp"
+#include "structs/ObjectUBO.hpp"
 
 // ----------------------------------------------------------------------------
 // APPLICATION
@@ -56,33 +34,21 @@ public:
 private:
   size_t width;
   size_t height;
-
   Camera camera;
 
-  // Programs
-  GLuint main_program = create_program("shaders/main.vert", "shaders/main.frag");
-  GLuint draw_light_program = create_program("shaders/draw_light.vert", "shaders/draw_light.frag");
+  GLuint main_program;
 
-  // Objects
-  Mesh cube = Mesh::cube();
-  Mesh sphere = Mesh::sphere();
-  Mesh teapot = Mesh::teapot();
-
-  // UBOs
   GLuint camera_buffer;
   CameraUBO camera_ubo;
+  
+  LightUBO main_light_ubo;
+  std::vector<LightUBO> main_lights;
+  GLuint main_lights_buffer;
 
-  GLuint light_buffer;
-  LightUBO light_ubo;
+  
+  ObjectUBO table_ubo;
+  std::vector<ObjectUBO> table_objects;
+  GLuint table_objects_buffer;
 
-  GLuint object_buffer;
-  ObjectUBO object_ubo;
-
-  // Many Lights
-  std::vector<LightUBO> lights;
-  GLuint lights_buffer;
-
-  // Instancing/MultiDraw
-  std::vector<ObjectUBO> instanced_objects;
-  GLuint instanced_objects_buffer;
+  std::vector<std::unique_ptr<Mesh>> table_mesh_vec;
 };

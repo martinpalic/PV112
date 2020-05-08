@@ -72,6 +72,7 @@ add_library(framework
 	"${FRAMEWORK_INCLUDE_DIR}/texture.hpp"
 	"${FRAMEWORK_SRC_DIR}/texture.cpp"
 )
+
 add_dependencies(framework glfw glad)
 
 target_link_libraries(framework ${GLFW_LIBRARIES} ${GLAD_LIBRARIES})
@@ -83,9 +84,43 @@ target_include_directories(framework
 	PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/objects"
 )
 
+# YOUR PROJECT
+add_executable(final
+        22_PROJECT/main.cpp
+        22_PROJECT/application.cpp
+        22_PROJECT/structs/CameraUBO.hpp
+        22_PROJECT/structs/LightUBO.hpp
+        22_PROJECT/structs/ObjectUBO.hpp
+        22_PROJECT/Walls.hpp
+        22_PROJECT/Walls.cpp)
+        
+add_dependencies(final
+        glfw
+        glad
+        framework
+        )
+
+target_link_libraries(final
+        ${GLFW_LIBRARIES}
+        ${GLAD_LIBRARIES}
+        framework
+        )
+
+target_include_directories(final
+        PRIVATE ${GLFW_INCLUDE_DIR}
+        PRIVATE ${GLAD_INCLUDE_DIR}
+        PRIVATE ${SINGLE_HEADER_LIBS_INCLUDE_DIR}
+        PRIVATE ${FRAMEWORK_INCLUDE_DIR}
+        )
+
 set(IMAGE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/images")
 
 add_subdirectory(01_window)
 add_subdirectory(01_window_final)
 add_subdirectory(02_shaders)
 add_subdirectory(02_shaders_final)
+add_subdirectory(05_uniforms)
+add_subdirectory(05_uniforms_final)
+add_subdirectory(06_textures_final)
+add_subdirectory(08_ubo_final)
+add_subdirectory(22_PROJECT)

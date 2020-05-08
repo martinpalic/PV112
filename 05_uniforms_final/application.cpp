@@ -37,7 +37,7 @@ void Application::render() {
   glProgramUniform3f(main_program, 3, eye_position.x, eye_position.y, eye_position.z);
 
   // Light
-  glProgramUniform4f(main_program, 4, 1.0f, 1.0f, 0.0f, 0);
+  glProgramUniform4f(main_program, 4, 1.0f, 1.0f, 0.0f, light);
 
   glProgramUniform3f(main_program, 5, 0.2f, 0.2f, 0.2f);
   glProgramUniform3f(main_program, 6, 1.0f, 1.0f, 1.0f);

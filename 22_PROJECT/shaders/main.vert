@@ -1,11 +1,5 @@
 #version 450
 
-layout(binding = 0, std140) uniform Camera {
-	mat4 projection;
-	mat4 view;
-	vec3 position;
-} camera;
-
 struct Light {
 	vec4 position;
 	vec4 ambient_color;
@@ -13,15 +7,22 @@ struct Light {
 	vec4 specular_color;
 };
 
-layout(binding = 1, std430) buffer Lights {
-	Light lights[];
-};
-
 struct Object {
 	mat4 model_matrix;
 	vec4 ambient_color;
 	vec4 diffuse_color;
-	vec4 specular_color;
+	vec3 specular_color;
+	float shininess;
+};
+
+layout(binding = 0, std140) uniform Camera {
+	mat4 projection;
+	mat4 view;
+	vec3 position;
+} camera;
+
+layout(binding = 1, std430) buffer Lights {
+	Light lights[];
 };
 
 layout(binding = 2, std430) buffer Objects {

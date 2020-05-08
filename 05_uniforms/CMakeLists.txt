@@ -12,3 +12,14 @@ target_include_directories(05_uniforms
 
 configure_file("${CMAKE_CURRENT_SOURCE_DIR}/shaders/main.vert" "${CMAKE_CURRENT_BINARY_DIR}/shaders/main.vert" COPYONLY)
 configure_file("${CMAKE_CURRENT_SOURCE_DIR}/shaders/main.frag" "${CMAKE_CURRENT_BINARY_DIR}/shaders/main.frag" COPYONLY)
+configure_file("${CMAKE_CURRENT_SOURCE_DIR}/shaders/skybox.vert" "${CMAKE_CURRENT_BINARY_DIR}/shaders/skybox.vert" COPYONLY)
+configure_file("${CMAKE_CURRENT_SOURCE_DIR}/shaders/skybox.frag" "${CMAKE_CURRENT_BINARY_DIR}/shaders/skybox.frag" COPYONLY)
+configure_file("${CMAKE_CURRENT_SOURCE_DIR}/cat/12221_Cat_v1_l3.obj" "${CMAKE_CURRENT_BINARY_DIR}/cat/12221_Cat_v1_l3.obj" COPYONLY)
+configure_file("${CMAKE_CURRENT_SOURCE_DIR}/cat/Cat_diffuse.jpg" "${CMAKE_CURRENT_BINARY_DIR}/cat/Cat_diffuse.jpg" COPYONLY)
+
+configure_file("${CMAKE_CURRENT_SOURCE_DIR}/skybox/right.jpg" "${CMAKE_CURRENT_BINARY_DIR}/skybox/right.jpg" COPYONLY)
+configure_file("${CMAKE_CURRENT_SOURCE_DIR}/skybox/left.jpg" "${CMAKE_CURRENT_BINARY_DIR}/skybox/left.jpg" COPYONLY)
+configure_file("${CMAKE_CURRENT_SOURCE_DIR}/skybox/front.jpg" "${CMAKE_CURRENT_BINARY_DIR}/skybox/front.jpg" COPYONLY)
+configure_file("${CMAKE_CURRENT_SOURCE_DIR}/skybox/back.jpg" "${CMAKE_CURRENT_BINARY_DIR}/skybox/back.jpg" COPYONLY)
+configure_file("${CMAKE_CURRENT_SOURCE_DIR}/skybox/top.jpg" "${CMAKE_CURRENT_BINARY_DIR}/skybox/top.jpg" COPYONLY)
+configure_file("${CMAKE_CURRENT_SOURCE_DIR}/skybox/bottom.jpg" "${CMAKE_CURRENT_BINARY_DIR}/skybox/bottom.jpg" COPYONLY)
