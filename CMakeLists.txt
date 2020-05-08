@@ -36,7 +36,7 @@ endif()
 
 # GLAD library
 set(GLAD_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/libs/glad/include")
-add_library(glad "${CMAKE_CURRENT_SOURCE_DIR}/libs/glad/src/glad.c")
+add_library(glad "${CMAKE_CURRENT_SOURCE_DIR}/libs/glad/src/glad.c" "models/table/Table.cpp")
 target_include_directories(glad PRIVATE "${GLAD_INCLUDE_DIR}")
 set(GLAD_LIBARIES)
 if(UNIX)
@@ -65,17 +65,24 @@ add_library(framework
 	"${FRAMEWORK_SRC_DIR}/utilities.cpp"
 	"${FRAMEWORK_INCLUDE_DIR}/program.hpp"
 	"${FRAMEWORK_SRC_DIR}/program.cpp"
-	"${FRAMEWORK_INCLUDE_DIR}/mesh.hpp"
-	"${FRAMEWORK_SRC_DIR}/mesh.cpp"
 	"${FRAMEWORK_INCLUDE_DIR}/camera.hpp"
 	"${FRAMEWORK_SRC_DIR}/camera.cpp"
+	"${FRAMEWORK_INCLUDE_DIR}/mesh.hpp"
+	"${FRAMEWORK_SRC_DIR}/mesh.cpp"
+	"${FRAMEWORK_INCLUDE_DIR}/rotate_camera.hpp"
+	"${FRAMEWORK_SRC_DIR}/rotate_camera.cpp"
 	"${FRAMEWORK_INCLUDE_DIR}/texture.hpp"
 	"${FRAMEWORK_SRC_DIR}/texture.cpp"
-)
-
+	"models/Walls.cpp"
+	"models/Walls.hpp"
+	"models/table/Table.cpp"
+	"models/table/Table.hpp"
+	)
 add_dependencies(framework glfw glad)
-
-target_link_libraries(framework ${GLFW_LIBRARIES} ${GLAD_LIBRARIES})
+target_link_libraries(framework 
+	${GLFW_LIBRARIES}
+	${GLAD_LIBRARIES}
+)
 target_include_directories(framework 
 	PRIVATE ${GLFW_INCLUDE_DIR}
 	PRIVATE ${GLAD_INCLUDE_DIR}
@@ -86,41 +93,65 @@ target_include_directories(framework
 
 # YOUR PROJECT
 add_executable(final
-        22_PROJECT/main.cpp
-        22_PROJECT/application.cpp
-        22_PROJECT/structs/CameraUBO.hpp
-        22_PROJECT/structs/LightUBO.hpp
-        22_PROJECT/structs/ObjectUBO.hpp
-        22_PROJECT/Walls.hpp
-        22_PROJECT/Walls.cpp)
-        
-add_dependencies(final
-        glfw
-        glad
-        framework
-        )
+	src/main.cpp 
+	src/application.cpp
+	src/application.hpp
+	models/Walls.cpp
+	models/Walls.hpp
+	structs/CameraUBO.hpp
+	structs/ObjectUBO.hpp
+	structs/LightUBO.hpp
+	models/table/Table.cpp
+	models/table/Table.hpp
+ )
 
-target_link_libraries(final
-        ${GLFW_LIBRARIES}
-        ${GLAD_LIBRARIES}
-        framework
-        )
+add_dependencies(final 
+	glfw 
+	glad 
+	framework
+)
 
-target_include_directories(final
-        PRIVATE ${GLFW_INCLUDE_DIR}
-        PRIVATE ${GLAD_INCLUDE_DIR}
-        PRIVATE ${SINGLE_HEADER_LIBS_INCLUDE_DIR}
-        PRIVATE ${FRAMEWORK_INCLUDE_DIR}
-        )
+target_link_libraries(final 
+	${GLFW_LIBRARIES} 
+	${GLAD_LIBRARIES} 
+	framework
+)
 
-set(IMAGE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/images")
+target_include_directories(final 
+	PRIVATE ${GLFW_INCLUDE_DIR}
+	PRIVATE ${GLAD_INCLUDE_DIR}
+	PRIVATE ${SINGLE_HEADER_LIBS_INCLUDE_DIR}
+	PRIVATE ${FRAMEWORK_INCLUDE_DIR}
+)
 
-add_subdirectory(01_window)
-add_subdirectory(01_window_final)
-add_subdirectory(02_shaders)
-add_subdirectory(02_shaders_final)
-add_subdirectory(05_uniforms)
-add_subdirectory(05_uniforms_final)
-add_subdirectory(06_textures_final)
-add_subdirectory(08_ubo_final)
-add_subdirectory(22_PROJECT)
+# You can use configure_file to copy all the files needed to run the application into the build folder.
+# That way you don't have to configure the IDE to run the program from inside the source folder.
+# configure_file("${CMAKE_CURRENT_SOURCE_DIR}/FILL_IN" "${CMAKE_CURRENT_BINARY_DIR}/FILL_IN" COPYONLY)
+#
+#
+set(SHADERS ${CMAKE_CURRENT_SOURCE_DIR}/shaders)
+set(SHADERS_BINARY ${CMAKE_CURRENT_BINARY_DIR}/shaders)
+configure_file(${SHADERS}/draw_lights.vert ${SHADERS_BINARY}/draw_lights.vert COPYONLY)
+configure_file(${SHADERS}/draw_lights.frag ${SHADERS_BINARY}/draw_lights.frag COPYONLY)
+configure_file(${SHADERS}/draw_object.vert ${SHADERS_BINARY}/draw_object.vert COPYONLY)
+configure_file(${SHADERS}/draw_object.frag ${SHADERS_BINARY}/draw_object.frag COPYONLY)
+configure_file(${SHADERS}/draw_object_textured.vert ${SHADERS_BINARY}/draw_object_textured.vert COPYONLY)
+configure_file(${SHADERS}/draw_object_textured.frag ${SHADERS_BINARY}/draw_object_textured.frag COPYONLY)
+configure_file(${SHADERS}/postprocess.vert ${SHADERS_BINARY}/postprocess.vert COPYONLY)
+configure_file(${SHADERS}/postprocess.frag ${SHADERS_BINARY}/postprocess.frag COPYONLY)
+
+set(IMAGES ${CMAKE_CURRENT_SOURCE_DIR}/images)
+set(IMAGES_BINARY ${CMAKE_CURRENT_BINARY_DIR}/images)
+configure_file(${IMAGES}/default.png ${IMAGES_BINARY}/default.png COPYONLY)
+
+set(OBJECTS ${CMAKE_CURRENT_SOURCE_DIR}/objects)
+set(OBJECTS_BINARY ${CMAKE_CURRENT_BINARY_DIR}/objects)
+configure_file(${OBJECTS}/test_scene.mtl ${OBJECTS_BINARY}/test_scene.mtl COPYONLY)
+configure_file(${OBJECTS}/test_scene.obj ${OBJECTS_BINARY}/test_scene.obj COPYONLY)
+
+
+configure_file("${CMAKE_CURRENT_SOURCE_DIR}/models/skybox/bottom.jpg" "${CMAKE_CURRENT_BINARY_DIR}/models/skybox/bottom.jpg" COPYONLY)
+configure_file("${CMAKE_CURRENT_SOURCE_DIR}/models/skybox/front.jpg" "${CMAKE_CURRENT_BINARY_DIR}/models/skybox/front.jpg" COPYONLY)
+
+configure_file("${CMAKE_CURRENT_SOURCE_DIR}/models/table/table.obj" "${CMAKE_CURRENT_BINARY_DIR}/models/table/table.obj" COPYONLY)
+configure_file("${CMAKE_CURRENT_SOURCE_DIR}/models/table/wood.jpg" "${CMAKE_CURRENT_BINARY_DIR}/models/table/wood.jpg" COPYONLY)

@@ -204,16 +204,16 @@ std::vector<std::unique_ptr<Mesh>> Mesh::from_file(const std::string &file_name,
         tinyobj::index_t idx = shapes[s].mesh.indices[f * 3 + v];
 
         for (int i = 0; i < 3; i++) {
-          vertices.push_back(attrib.vertices[3 * idx.vertex_index + i]);
+          vertices.push_back(attrib.vertices[3 * (size_t)idx.vertex_index + i]);
 
           if (!attrib.normals.empty()) {
-            normals.push_back(attrib.normals[3 * idx.normal_index + i]);
+            normals.push_back(attrib.normals[3 * (size_t)idx.normal_index + i]);
           }
         }
 
         if (!attrib.texcoords.empty()) {
-          tex_coords.push_back(attrib.texcoords[2 * idx.texcoord_index + 0]);
-          tex_coords.push_back(attrib.texcoords[2 * idx.texcoord_index + 1]);
+          tex_coords.push_back(attrib.texcoords[2 * (size_t)idx.texcoord_index + 0]);
+          tex_coords.push_back(attrib.texcoords[2 * (size_t)idx.texcoord_index + 1]);
         }
       }
     }
