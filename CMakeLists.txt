@@ -36,7 +36,7 @@ endif()
 
 # GLAD library
 set(GLAD_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/libs/glad/include")
-add_library(glad "${CMAKE_CURRENT_SOURCE_DIR}/libs/glad/src/glad.c" "models/table/Table.cpp")
+add_library(glad "${CMAKE_CURRENT_SOURCE_DIR}/libs/glad/src/glad.c")
 target_include_directories(glad PRIVATE "${GLAD_INCLUDE_DIR}")
 set(GLAD_LIBARIES)
 if(UNIX)
@@ -73,10 +73,6 @@ add_library(framework
 	"${FRAMEWORK_SRC_DIR}/rotate_camera.cpp"
 	"${FRAMEWORK_INCLUDE_DIR}/texture.hpp"
 	"${FRAMEWORK_SRC_DIR}/texture.cpp"
-	"models/Walls.cpp"
-	"models/Walls.hpp"
-	"models/table/Table.cpp"
-	"models/table/Table.hpp"
 	)
 add_dependencies(framework glfw glad)
 target_link_libraries(framework 
@@ -96,13 +92,30 @@ add_executable(final
 	src/main.cpp 
 	src/application.cpp
 	src/application.hpp
-	models/Walls.cpp
-	models/Walls.hpp
 	structs/CameraUBO.hpp
 	structs/ObjectUBO.hpp
 	structs/LightUBO.hpp
-	models/table/Table.cpp
-	models/table/Table.hpp
+	structs/SpotLightUBO.hpp
+	models/WallsObject.cpp
+	models/WallsObject.hpp
+	models/table/TableObject.cpp
+	models/table/TableObject.hpp
+	models/gardenTable/GardenTableObject.cpp
+	models/gardenTable/GardenTableObject.hpp	
+	models/snake/SnakeObject.cpp
+	models/snake/SnakeObject.hpp
+	models/plate/PlateObject.cpp
+	models/plate/PlateObject.hpp
+	models/cup/CupObject.cpp
+	models/cup/CupObject.hpp
+	models/chair/ChairObject.cpp
+	models/chair/ChairObject.hpp
+	models/cat/CatObject.cpp
+	models/cat/CatObject.hpp
+	models/treat/TreatObject.cpp
+	models/treat/TreatObject.hpp
+	models/lamp/LampObject.cpp
+	models/lamp/LampObject.hpp
  )
 
 add_dependencies(final 
@@ -139,6 +152,9 @@ configure_file(${SHADERS}/draw_object_textured.vert ${SHADERS_BINARY}/draw_objec
 configure_file(${SHADERS}/draw_object_textured.frag ${SHADERS_BINARY}/draw_object_textured.frag COPYONLY)
 configure_file(${SHADERS}/postprocess.vert ${SHADERS_BINARY}/postprocess.vert COPYONLY)
 configure_file(${SHADERS}/postprocess.frag ${SHADERS_BINARY}/postprocess.frag COPYONLY)
+configure_file(${SHADERS}/spot_light_textured.vert ${SHADERS_BINARY}/spot_light_textured.vert COPYONLY)
+configure_file(${SHADERS}/spot_light_textured.frag ${SHADERS_BINARY}/spot_light_textured.frag COPYONLY)
+configure_file(${SHADERS}/textured_walls.frag ${SHADERS_BINARY}/textured_walls.frag COPYONLY)
 
 set(IMAGES ${CMAKE_CURRENT_SOURCE_DIR}/images)
 set(IMAGES_BINARY ${CMAKE_CURRENT_BINARY_DIR}/images)
@@ -152,6 +168,33 @@ configure_file(${OBJECTS}/test_scene.obj ${OBJECTS_BINARY}/test_scene.obj COPYON
 
 configure_file("${CMAKE_CURRENT_SOURCE_DIR}/models/skybox/bottom.jpg" "${CMAKE_CURRENT_BINARY_DIR}/models/skybox/bottom.jpg" COPYONLY)
 configure_file("${CMAKE_CURRENT_SOURCE_DIR}/models/skybox/front.jpg" "${CMAKE_CURRENT_BINARY_DIR}/models/skybox/front.jpg" COPYONLY)
+configure_file("${CMAKE_CURRENT_SOURCE_DIR}/models/skybox/top.jpg" "${CMAKE_CURRENT_BINARY_DIR}/models/skybox/top.jpg" COPYONLY)
+configure_file("${CMAKE_CURRENT_SOURCE_DIR}/models/skybox/back.jpg" "${CMAKE_CURRENT_BINARY_DIR}/models/skybox/back.jpg" COPYONLY)
+configure_file("${CMAKE_CURRENT_SOURCE_DIR}/models/skybox/left.jpg" "${CMAKE_CURRENT_BINARY_DIR}/models/skybox/left.jpg" COPYONLY)
+configure_file("${CMAKE_CURRENT_SOURCE_DIR}/models/skybox/right.jpg" "${CMAKE_CURRENT_BINARY_DIR}/models/skybox/right.jpg" COPYONLY)
+configure_file("${CMAKE_CURRENT_SOURCE_DIR}/models/skybox/wood.jpg" "${CMAKE_CURRENT_BINARY_DIR}/models/skybox/wood.jpg" COPYONLY)
 
 configure_file("${CMAKE_CURRENT_SOURCE_DIR}/models/table/table.obj" "${CMAKE_CURRENT_BINARY_DIR}/models/table/table.obj" COPYONLY)
 configure_file("${CMAKE_CURRENT_SOURCE_DIR}/models/table/wood.jpg" "${CMAKE_CURRENT_BINARY_DIR}/models/table/wood.jpg" COPYONLY)
+configure_file("${CMAKE_CURRENT_SOURCE_DIR}/models/chair/chair.obj" "${CMAKE_CURRENT_BINARY_DIR}/models/chair/chair.obj" COPYONLY)
+configure_file("${CMAKE_CURRENT_SOURCE_DIR}/models/chair/wood.jpg" "${CMAKE_CURRENT_BINARY_DIR}/models/chair/wood.jpg" COPYONLY)
+
+configure_file("${CMAKE_CURRENT_SOURCE_DIR}/models/cat/cat.obj" "${CMAKE_CURRENT_BINARY_DIR}/models/cat/cat.obj" COPYONLY)
+configure_file("${CMAKE_CURRENT_SOURCE_DIR}/models/cat/cat.jpg" "${CMAKE_CURRENT_BINARY_DIR}/models/cat/cat.jpg" COPYONLY)
+
+
+
+configure_file("${CMAKE_CURRENT_SOURCE_DIR}/models/snake/snake.obj" "${CMAKE_CURRENT_BINARY_DIR}/models/snake/snake.obj" COPYONLY)
+configure_file("${CMAKE_CURRENT_SOURCE_DIR}/models/snake/snake.jpg" "${CMAKE_CURRENT_BINARY_DIR}/models/snake/snake.jpg" COPYONLY)
+
+configure_file("${CMAKE_CURRENT_SOURCE_DIR}/models/gardenTable/gardenTable.obj" "${CMAKE_CURRENT_BINARY_DIR}/models/gardenTable/gardenTable.obj" COPYONLY)
+configure_file("${CMAKE_CURRENT_SOURCE_DIR}/models/gardenTable/gardenTable.jpg" "${CMAKE_CURRENT_BINARY_DIR}/models/gardenTable/gardenTable.jpg" COPYONLY)
+
+
+configure_file("${CMAKE_CURRENT_SOURCE_DIR}/models/lamp/Lamp.obj" "${CMAKE_CURRENT_BINARY_DIR}/models/lamp/Lamp.obj" COPYONLY)
+configure_file("${CMAKE_CURRENT_SOURCE_DIR}/models/lamp/Lamp.jpg" "${CMAKE_CURRENT_BINARY_DIR}/models/lamp/Lamp.jpg" COPYONLY)
+
+configure_file("${CMAKE_CURRENT_SOURCE_DIR}/models/plate/plate.obj" "${CMAKE_CURRENT_BINARY_DIR}/models/plate/plate.obj" COPYONLY)
+configure_file("${CMAKE_CURRENT_SOURCE_DIR}/models/cup/cup.obj" "${CMAKE_CURRENT_BINARY_DIR}/models/cup/cup.obj" COPYONLY)
+
+configure_file("${CMAKE_CURRENT_SOURCE_DIR}/src/audio.wav" "${CMAKE_CURRENT_BINARY_DIR}/src/audio.wav" COPYONLY)

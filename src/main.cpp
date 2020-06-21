@@ -15,8 +15,8 @@ void APIENTRY opengl_debug_callback(GLenum source, GLenum type, GLuint id, GLenu
                                     const void *user_parameter);
 
 int main(void) {
-  const size_t initial_width = 1280;
-  const size_t initial_height = 720;
+  const size_t initial_width = 1600;
+  const size_t initial_height = 900;
 
   // Initialize GLFW
   if (!glfwInit()) {
